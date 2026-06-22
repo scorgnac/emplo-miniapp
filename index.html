@@ -24,7 +24,7 @@ html{background:var(--ivory);min-height:100%}
 body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:14px;line-height:1.5;min-height:100dvh;padding-bottom:96px;overflow-x:hidden}
 
 /* HEADER */
-.hdr{position:sticky;top:0;z-index:100;background:var(--ivory);padding:10px 16px;border-bottom:1.5px solid var(--border)}
+.hdr{position:sticky;top:0;z-index:100;background:var(--ivory);padding:10px 16px}
 .hdr-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:0}
 .hdr-stat{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);min-width:0;font-family:'Geologica',sans-serif}
 .stat-pill{background:var(--accent);color:#fff;font-size:11px;font-weight:700;font-family:'Geologica',sans-serif;padding:2px 8px;border-radius:var(--r-pill);min-width:22px;text-align:center;transition:all .2s;flex-shrink:0}
@@ -177,10 +177,11 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 /* ── ВИЗАРД ── */
 body{padding-bottom:120px}
 /* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
-.hdr{padding-top:calc(54px + env(safe-area-inset-top,0px));padding-bottom:11px}
-.summary{padding-top:calc(60px + env(safe-area-inset-top,0px))!important}
+.hdr{padding-top:calc(58px + env(safe-area-inset-top,0px));padding-bottom:10px}
+.hdr.collapsed{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:0}
+.summary{padding-top:4px!important}
 /* прогресс-бар (кликабельный) */
-.wiz-progress{display:none;gap:4px;margin-top:10px}
+.wiz-progress{display:none;gap:4px;margin-top:4px}
 .wiz-progress.show{display:flex}
 .wiz-seg{flex:1;display:flex;flex-direction:column;gap:4px;cursor:pointer;padding-top:2px}
 .wiz-dot{height:4px;border-radius:2px;background:var(--ivory-deep);transition:background .2s}
@@ -207,7 +208,7 @@ body{padding-bottom:120px}
 /* ── ЭКРАН СВОДКИ ── */
 .summary{display:none;padding:16px 16px 150px}
 .summary.show{display:block}
-.sum-hero{text-align:center;padding:32px 16px 24px}
+.sum-hero{text-align:center;padding:calc(50px + env(safe-area-inset-top,0px)) 16px 18px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
 .sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
 .sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:260px;margin:0 auto;line-height:1.5}
@@ -602,17 +603,17 @@ function doSearch(){
   const data=JSON.stringify(payload);
   if(window.Telegram&&window.Telegram.WebApp){
     const tg=window.Telegram.WebApp;
-    try{
-      // sendData передаёт фильтры боту и закрывает мини-апп автоматически.
-      // Лимит sendData — 4096 байт; payload фильтров заведомо меньше.
-      tg.sendData(data);
-    }catch(e){
-      // фолбэк: если sendData недоступен — пробуем закрыть вручную
-      try{tg.close();}catch(_){}
-    }
+    // тактильный отклик на нажатие
+    try{tg.HapticFeedback&&tg.HapticFeedback.impactOccurred('medium');}catch(e){}
+    // sendData доставляет фильтры боту, НО работает только если мини-апп
+    // запущен через keyboard-кнопку. При запуске из Menu Button он не сработает —
+    // поэтому ниже всегда закрываем окно, чтобы было видимое действие.
+    try{tg.sendData(data);}catch(e){}
+    // на проде фильтры дополнительно уйдут на бэкенд по initData; пока — закрываем.
+    setTimeout(()=>{try{tg.close();}catch(e){}},150);
   }else{
     console.log('ПОИСК:',JSON.stringify(payload,null,2));
-    alert('Поиск запущен — параметры в консоли (в Telegram мини-апп закроется и передаст фильтры боту)');
+    alert('Поиск запущен (тест). Параметры в консоли.');
   }
 }
 
@@ -630,6 +631,7 @@ let mode='summary', wizStep=0;
 
 function showSummary(){
   mode='summary';
+  document.querySelector('.hdr').classList.add('collapsed');
   document.getElementById('summary').classList.add('show');
   document.getElementById('wizContent').style.display='none';
   document.getElementById('wizTitle').classList.remove('show');
@@ -646,6 +648,7 @@ function showSummary(){
 function startWizard(step){
   mode='wizard';
   wizStep=step||0;
+  document.querySelector('.hdr').classList.remove('collapsed');
   document.getElementById('summary').classList.remove('show');
   document.getElementById('wizContent').style.display='';
   document.getElementById('wizTitle').classList.add('show');
@@ -689,12 +692,12 @@ function renderSummary(){
   if(n===0){
     hero.innerHTML='<div class="sum-hero-ico">🔍</div><div class="sum-hero-ttl">У вас выбрано 0 фильтров</div><div class="sum-hero-sub">Укажите параметры поиска, и мы найдём подходящие вакансии по всей России</div>';
   }else{
-    hero.innerHTML='<div class="sum-hero-ico">✅</div><div class="sum-hero-ttl">Выбрано '+n+' '+plural(n,'параметр','параметра','параметров')+'</div><div class="sum-hero-sub">Проверьте фильтры и запускайте поиск, либо измените параметры</div>';
+    hero.innerHTML='<div class="sum-hero-ttl">Выбрано '+n+' '+plural(n,'параметр','параметра','параметров')+'</div><div class="sum-hero-sub">Проверьте фильтры и запускайте поиск, либо измените параметры</div>';
   }
   // группы с выбранным
   const groups=WIZ.map((w,i)=>{const vals=getGroupVals(w.id);if(!vals.length)return '';
     const chips=vals.map(v=>'<span class="sum-chip"><span class="sum-chip-txt">'+v+'</span><span class="sum-chip-x" onclick="rmSummaryChip(\''+w.id+'\',\''+String(v).replace(/'/g,"\\'")+'\')">×</span></span>').join('');
-    return '<div class="sum-group"><div class="sum-group-hd"><span class="sum-group-ico">'+w.ico+'</span><span class="sum-group-nm">'+w.nm+'</span><span class="sum-group-edit" onclick="editStep('+i+')">Изменить</span></div><div class="sum-chips">'+chips+'</div></div>';
+    return '<div class="sum-group"><div class="sum-group-hd"><span class="sum-group-ico">'+w.ico+'</span><span class="sum-group-nm">'+w.nm+'</span></div><div class="sum-chips">'+chips+'</div></div>';
   }).filter(Boolean).join('');
   document.getElementById('sumGroups').innerHTML=groups;
   // нижние кнопки сводки
