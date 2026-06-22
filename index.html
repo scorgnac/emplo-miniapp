@@ -177,7 +177,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 /* ── ВИЗАРД ── */
 body{padding-bottom:120px}
 /* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
-.hdr{padding-top:calc(58px + env(safe-area-inset-top,0px));padding-bottom:10px}
+.hdr{padding-top:calc(72px + env(safe-area-inset-top,0px));padding-bottom:10px}
 .hdr.collapsed{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:0}
 .summary{padding-top:4px!important}
 /* прогресс-бар (кликабельный) */
@@ -202,7 +202,7 @@ body{padding-bottom:120px}
 .sec.wiz-active .sec-in{padding:6px 2px 2px}
 .wiz-title{display:none;font-family:'Geologica',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.4px;margin:14px 0 2px;padding:0 16px}
 .wiz-title.show{display:block}
-.wiz-sub{display:none;font-size:12px;color:var(--ink-dim);margin-bottom:8px;padding:0 16px}
+.wiz-sub{display:none;font-size:13px;color:var(--ink-dim);margin-bottom:10px;padding:0 16px;line-height:1.4;font-weight:400}
 .wiz-sub.show{display:block}
 
 /* ── ЭКРАН СВОДКИ ── */
@@ -212,6 +212,18 @@ body{padding-bottom:120px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
 .sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
 .sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:260px;margin:0 auto;line-height:1.5}
+
+/* ОНБОРДИНГ: центрированный экран без фиксированной нижней кнопки */
+.summary.onboarding{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100dvh - 80px);padding:24px 24px calc(40px + env(safe-area-inset-bottom,0px));text-align:center}
+body.onb .hdr{display:none}
+.summary.onboarding .sum-hero{padding:0;margin-bottom:28px}
+.summary.onboarding #sumGroups{display:none}
+.onb-ico{width:84px;height:84px;border-radius:22px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 22px}
+.onb-ttl{font-family:'Geologica',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;line-height:1.25}
+.onb-sub{font-size:14px;color:var(--ink-mid);max-width:300px;margin:0 auto;line-height:1.5}
+.onb-btn{width:100%;max-width:340px;margin-top:32px;padding:16px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;box-shadow:0 2px 12px var(--accent-ring);transition:all .15s}
+.onb-btn:active{background:var(--accent-deep);transform:scale(.98)}
+
 /* список выбранного на сводке */
 .sum-groups{display:flex;flex-direction:column;gap:14px;margin-top:8px}
 .sum-group{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:13px 14px}
@@ -648,6 +660,7 @@ function showSummary(){
 function startWizard(step){
   mode='wizard';
   wizStep=step||0;
+  document.body.classList.remove('onb');
   document.querySelector('.hdr').classList.remove('collapsed');
   document.getElementById('summary').classList.remove('show');
   document.getElementById('wizContent').style.display='';
@@ -667,7 +680,10 @@ function wizRender(){
   // кликабельный прогресс
   const pr=document.getElementById('wizProgress');
   pr.innerHTML=WIZ.map((w,i)=>'<div class="wiz-seg '+(i<wizStep?'done':i===wizStep?'cur':'')+'" onclick="wizGoto('+i+')"><div class="wiz-dot"></div><div class="wiz-seg-lbl">'+w.nm+'</div></div>').join('');
-  document.getElementById('wizBack').textContent=wizStep===0?'К сводке':'Назад';
+  // на первом шаге кнопка "Назад" не нужна (возврат на онбординг бессмысленен)
+  const backBtn=document.getElementById('wizBack');
+  if(wizStep===0){backBtn.style.display='none';}
+  else{backBtn.style.display='';backBtn.textContent='Назад';}
   const last=wizStep===WIZ.length-1;
   document.getElementById('wizNext').textContent=last?'Готово':'Дальше';
   window.scrollTo({top:0,behavior:'smooth'});
@@ -689,11 +705,20 @@ function getGroupVals(id){
 function renderSummary(){
   const n=cntActive();
   const hero=document.getElementById('sumHero');
+  const summaryEl=document.getElementById('summary');
+  const sn=document.getElementById('sumNav');
   if(n===0){
-    hero.innerHTML='<div class="sum-hero-ico">🔍</div><div class="sum-hero-ttl">У вас выбрано 0 фильтров</div><div class="sum-hero-sub">Укажите параметры поиска, и мы найдём подходящие вакансии по всей России</div>';
-  }else{
-    hero.innerHTML='<div class="sum-hero-ttl">Выбрано '+n+' '+plural(n,'параметр','параметра','параметров')+'</div><div class="sum-hero-sub">Проверьте фильтры и запускайте поиск, либо измените параметры</div>';
+    // ОНБОРДИНГ: центрированный продающий экран, кнопка прямо под текстом
+    summaryEl.classList.add('onboarding');
+    document.body.classList.add('onb');
+    hero.innerHTML='<div class="onb-ico">🔍</div><div class="onb-ttl">Найдите работу мечты</div><div class="onb-sub">Задайте параметры — профессию, город, зарплату — и мы соберём свежие вакансии со всех площадок в одном списке</div><button class="onb-btn" onclick="startWizard(0)">Выбрать параметры</button>';
+    document.getElementById('sumGroups').innerHTML='';
+    sn.innerHTML='';
+    return;
   }
+  summaryEl.classList.remove('onboarding');
+  document.body.classList.remove('onb');
+  hero.innerHTML='<div class="sum-hero-ttl">Выбрано '+n+' '+plural(n,'параметр','параметра','параметров')+'</div><div class="sum-hero-sub">Проверьте фильтры и запускайте поиск, либо измените параметры</div>';
   // группы с выбранным
   const groups=WIZ.map((w,i)=>{const vals=getGroupVals(w.id);if(!vals.length)return '';
     const chips=vals.map(v=>'<span class="sum-chip"><span class="sum-chip-txt">'+v+'</span><span class="sum-chip-x" onclick="rmSummaryChip(\''+w.id+'\',\''+String(v).replace(/'/g,"\\'")+'\')">×</span></span>').join('');
@@ -701,12 +726,7 @@ function renderSummary(){
   }).filter(Boolean).join('');
   document.getElementById('sumGroups').innerHTML=groups;
   // нижние кнопки сводки
-  const sn=document.getElementById('sumNav');
-  if(n===0){
-    sn.innerHTML='<button class="sum-btn sum-btn-primary" onclick="startWizard(0)">Выбрать параметры</button>';
-  }else{
-    sn.innerHTML='<button class="sum-btn sum-btn-primary" onclick="doSearch()">Искать вакансии</button><button class="sum-btn sum-btn-sec" onclick="startWizard(0)">Изменить параметры</button>';
-  }
+  sn.innerHTML='<button class="sum-btn sum-btn-primary" onclick="doSearch()">Искать вакансии</button><button class="sum-btn sum-btn-sec" onclick="startWizard(0)">Изменить параметры</button>';
 }
 function editStep(i){startWizard(i);}
 function rmSummaryChip(groupId,val){
