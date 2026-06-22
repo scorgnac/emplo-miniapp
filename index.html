@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Эмпло · Визард</title>
-<meta name="theme-color" content="#2563EB">
+<meta name="theme-color" content="#F4F6FA">
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -20,6 +20,7 @@
   --r:12px;--r-sm:8px;--r-pill:100px;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{background:var(--ivory);min-height:100%}
 body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,sans-serif;font-size:14px;line-height:1.5;min-height:100dvh;padding-bottom:96px;overflow-x:hidden}
 
 /* HEADER */
@@ -48,7 +49,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 .hchip-x{cursor:pointer;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;flex-shrink:0}
 .hchip-x:active{background:var(--accent-deep)}
 
-.content{padding:10px 16px}
+.content{padding:10px 16px 130px}
 
 /* SECTION */
 .sec{margin-bottom:8px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:visible;box-shadow:var(--sh-sm);transition:border-color .2s,box-shadow .2s}
@@ -98,7 +99,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 .skill-wrap{width:100%}
 
 /* CHIP */
-.chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:var(--r-pill);border:1.5px solid var(--border);background:var(--ivory);color:var(--ink-mid);font-size:12px;font-weight:500;cursor:pointer;transition:all .12s;user-select:none;white-space:nowrap}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:6px 11px;border-radius:18px;border:1.5px solid var(--border);background:var(--ivory);color:var(--ink-mid);font-size:12px;font-weight:500;cursor:pointer;transition:all .12s;user-select:none;white-space:normal;max-width:100%;line-height:1.3}
 .chip:active{transform:scale(.96)}
 .chip.on{background:var(--accent-soft);border-color:var(--accent-ink);color:var(--accent-ink);font-weight:600}
 .chip-sk{background:var(--white);border-style:dashed}
@@ -174,8 +175,10 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 .cta-bdg{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:var(--r-pill);font-size:12px}
 
 /* ── ВИЗАРД ── */
-body{padding-bottom:80px}
-.hdr{padding-bottom:11px}
+body{padding-bottom:120px}
+/* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
+.hdr{padding-top:calc(54px + env(safe-area-inset-top,0px));padding-bottom:11px}
+.summary{padding-top:calc(60px + env(safe-area-inset-top,0px))!important}
 /* прогресс-бар (кликабельный) */
 .wiz-progress{display:none;gap:4px;margin-top:10px}
 .wiz-progress.show{display:flex}
@@ -196,13 +199,13 @@ body{padding-bottom:80px}
 .sec.wiz-active .sec-hd{display:none}
 .sec.wiz-active .sec-body{max-height:none!important;border-top:none;overflow:visible}
 .sec.wiz-active .sec-in{padding:6px 2px 2px}
-.wiz-title{display:none;font-family:'Geologica',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.4px;margin:10px 0 2px;padding:0 16px}
+.wiz-title{display:none;font-family:'Geologica',sans-serif;font-size:20px;font-weight:700;letter-spacing:-.4px;margin:14px 0 2px;padding:0 16px}
 .wiz-title.show{display:block}
 .wiz-sub{display:none;font-size:12px;color:var(--ink-dim);margin-bottom:8px;padding:0 16px}
 .wiz-sub.show{display:block}
 
 /* ── ЭКРАН СВОДКИ ── */
-.summary{display:none;padding:16px}
+.summary{display:none;padding:16px 16px 150px}
 .summary.show{display:block}
 .sum-hero{text-align:center;padding:32px 16px 24px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
@@ -212,15 +215,18 @@ body{padding-bottom:80px}
 .sum-groups{display:flex;flex-direction:column;gap:14px;margin-top:8px}
 .sum-group{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);padding:13px 14px}
 .sum-group-hd{display:flex;align-items:center;gap:9px;margin-bottom:9px}
-.sum-group-ico{width:30px;height:30px;border-radius:var(--r-sm);background:var(--accent-soft);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.sum-group-ico{display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
 .sum-group-nm{font-family:'Geologica',sans-serif;font-size:13px;font-weight:600}
 .sum-group-edit{margin-left:auto;font-size:12px;color:var(--accent-ink);font-weight:600;cursor:pointer;padding:4px 8px;border-radius:var(--r-pill)}
 .sum-group-edit:active{background:var(--accent-soft)}
 .sum-chips{display:flex;flex-wrap:wrap;gap:6px}
-.sum-chip{background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent-line);font-size:12px;font-weight:600;padding:4px 11px;border-radius:var(--r-pill);font-family:'Geologica',sans-serif}
+.sum-chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);color:var(--accent-ink);border:1px solid var(--accent-line);font-size:12px;font-weight:600;padding:4px 6px 4px 11px;border-radius:var(--r-pill);font-family:'Geologica',sans-serif;max-width:100%}
+.sum-chip-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.sum-chip-x{cursor:pointer;width:17px;height:17px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;line-height:1;flex-shrink:0}
+.sum-chip-x:active{background:var(--accent-deep)}
 
 /* нижняя навигация */
-.wiz-nav{position:fixed;bottom:0;left:0;right:0;padding:10px 16px 16px;background:linear-gradient(to top,var(--ivory) 78%,transparent);z-index:100;display:none;gap:8px;align-items:center}
+.wiz-nav{position:fixed;bottom:0;left:0;right:0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--ivory) 62%,transparent);z-index:100;display:none;gap:8px;align-items:center}
 .wiz-nav.show{display:flex}
 .wiz-btn{padding:15px 18px;border-radius:var(--r);font-family:'Geologica',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
 .wiz-back{background:none;border:1.5px solid var(--border);color:var(--ink-mid);flex-shrink:0}
@@ -228,7 +234,7 @@ body{padding-bottom:80px}
 .wiz-next{background:var(--accent);color:#fff;flex:1;box-shadow:0 2px 12px var(--accent-ring)}
 .wiz-next:active{background:var(--accent-deep);transform:scale(.99)}
 /* кнопки на сводке */
-.sum-nav{position:fixed;bottom:0;left:0;right:0;padding:10px 16px 16px;background:linear-gradient(to top,var(--ivory) 78%,transparent);z-index:100;display:none;flex-direction:column;gap:8px}
+.sum-nav{position:fixed;bottom:0;left:0;right:0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--ivory) 62%,transparent);z-index:100;display:none;flex-direction:column;gap:8px}
 .sum-nav.show{display:flex}
 .sum-btn{width:100%;padding:15px 20px;border-radius:var(--r);font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
 .sum-btn-primary{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--accent-ring)}
@@ -402,7 +408,7 @@ const CITIES=["Москва", "Санкт-Петербург", "Новосиби
 // единый индекс локаций с типом
 const LOCS=[...REGIONS.map(n=>({name:n,type:'region'})),...CITIES.map(n=>({name:n,type:'city'}))];
 
-const S={ind:new Set(),prof:new Set(),skills:new Set(),fmt:new Set(),allRussia:false,locs:new Map(),exp:null,salFrom:0,salTo:0,noSal:true};
+const S={ind:new Set(),prof:new Set(),skills:new Set(),fmt:new Set(),allRussia:false,locs:new Map(),exp:new Set(),salFrom:0,salTo:0,noSal:true};
 // locs: name -> type
 
 const GRP_LBL={ind:'Отрасль',prof:'Профессия',skills:'Навыки',fmt:'Формат работы',geo:'География',exp:'Опыт работы',sal:'Зарплата'};
@@ -485,7 +491,7 @@ document.getElementById('locInput').addEventListener('keydown',function(e){
 function updHl(items){items.forEach((it,i)=>it.classList.toggle('hl',i===acHl));if(acHl>=0)items[acHl].scrollIntoView({block:'nearest'});}
 document.addEventListener('click',function(e){if(!e.target.closest('.geo-ac'))closeDD();});
 
-function selExp(el){document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');S.exp=el.textContent.trim();upd();}
+function selExp(el){el.classList.toggle('on');const t=el.textContent.trim();if(el.classList.contains('on'))S.exp.add(t);else S.exp.delete(t);upd();}
 
 function parseNum(s){return parseInt((s||'').replace(/\D/g,''))||0;}
 function onSal(){
@@ -522,7 +528,7 @@ function cntActive(){
   n+=S.skills.size;
   n+=S.fmt.size;
   if(S.allRussia)n+=1;else n+=S.locs.size;
-  if(S.exp)n+=1;
+  n+=S.exp.size;
   if(S.salFrom||S.salTo)n+=1;
   return n;
 }
@@ -535,7 +541,7 @@ function rmFilter(grp,val){
   else if(grp==='prof'){S.prof.delete(val);syncChips('prof',val);}
   else if(grp==='skills'){S.skills.delete(val);syncChips('skill',val);}
   else if(grp==='fmt'){S.fmt.delete(val);document.querySelectorAll('.fmt-chip').forEach(c=>{if(c.textContent.trim()===val)c.classList.remove('on');});}
-  else if(grp==='exp'){S.exp=null;document.querySelectorAll('.exp-chip').forEach(c=>c.classList.remove('on'));}
+  else if(grp==='exp'){S.exp.delete(val);document.querySelectorAll('.exp-chip').forEach(c=>{if(c.textContent.trim()===val)c.classList.remove('on');});}
   else if(grp==='sal'){S.salFrom=0;S.salTo=0;document.getElementById('salFrom').value='';document.getElementById('salTo').value='';document.getElementById('salHint').textContent='';}
   else if(grp==='russia'){S.allRussia=false;document.getElementById('geoRussia').classList.remove('on');}
   else if(grp==='loc'){S.locs.delete(val);renderLocTags();}
@@ -565,7 +571,7 @@ function upd(){
   if(S.allRussia)geoBdg='Вся Россия';
   else if(S.locs.size)geoBdg=S.locs.size===1?[...S.locs.keys()][0]:S.locs.size+' локации';
   setBdg('geo',geoBdg);
-  setBdg('exp',S.exp);
+  setBdg('exp',S.exp.size?(S.exp.size===1?[...S.exp][0]:S.exp.size+' варианта'):null);
   let salBadge=null;
   if(S.salFrom&&S.salTo)salBadge=fmt(S.salFrom)+'–'+fmt(S.salTo);
   else if(S.salFrom)salBadge='от '+fmt(S.salFrom);
@@ -586,15 +592,28 @@ function resetAll(){
   document.getElementById('salFrom').value='';document.getElementById('salTo').value='';
   document.getElementById('salHint').textContent='';
   document.getElementById('togNoSal').classList.add('on');
-  Object.assign(S,{ind:new Set(),prof:new Set(),skills:new Set(),fmt:new Set(),allRussia:false,locs:new Map(),exp:null,salFrom:0,salTo:0,noSal:true});
+  Object.assign(S,{ind:new Set(),prof:new Set(),skills:new Set(),fmt:new Set(),allRussia:false,locs:new Map(),exp:new Set(),salFrom:0,salTo:0,noSal:true});
   renderLocTags();closeDD();
   upd();
 }
 
 function doSearch(){
-  const payload={industries:[...S.ind],professions:[...S.prof],skills:[...S.skills],formats:[...S.fmt],geo:{all_russia:S.allRussia,locations:[...S.locs.entries()].map(([name,type])=>({name,type}))},experience:S.exp,salary_from:S.salFrom||null,salary_to:S.salTo||null,show_no_salary:S.noSal};
-  if(window.Telegram?.WebApp){window.Telegram.WebApp.sendData(JSON.stringify(payload));}
-  else{console.log('ПОИСК:',JSON.stringify(payload,null,2));alert('Поиск запущен — параметры в консоли');}
+  const payload={industries:[...S.ind],professions:[...S.prof],skills:[...S.skills],formats:[...S.fmt],geo:{all_russia:S.allRussia,locations:[...S.locs.entries()].map(([name,type])=>({name,type}))},experience:[...S.exp],salary_from:S.salFrom||null,salary_to:S.salTo||null,show_no_salary:S.noSal};
+  const data=JSON.stringify(payload);
+  if(window.Telegram&&window.Telegram.WebApp){
+    const tg=window.Telegram.WebApp;
+    try{
+      // sendData передаёт фильтры боту и закрывает мини-апп автоматически.
+      // Лимит sendData — 4096 байт; payload фильтров заведомо меньше.
+      tg.sendData(data);
+    }catch(e){
+      // фолбэк: если sendData недоступен — пробуем закрыть вручную
+      try{tg.close();}catch(_){}
+    }
+  }else{
+    console.log('ПОИСК:',JSON.stringify(payload,null,2));
+    alert('Поиск запущен — параметры в консоли (в Telegram мини-апп закроется и передаст фильтры боту)');
+  }
 }
 
 
@@ -660,7 +679,7 @@ function getGroupVals(id){
   if(id==='prof')return [...S.prof,...S.skills];
   if(id==='fmt')return [...S.fmt];
   if(id==='geo'){if(S.allRussia)return['Вся Россия'];return [...S.locs.keys()];}
-  if(id==='exp')return S.exp?[S.exp]:[];
+  if(id==='exp')return [...S.exp];
   if(id==='sal'){let s=null;if(S.salFrom&&S.salTo)s='от '+fmt(S.salFrom)+' до '+fmt(S.salTo)+' ₽';else if(S.salFrom)s='от '+fmt(S.salFrom)+' ₽';else if(S.salTo)s='до '+fmt(S.salTo)+' ₽';return s?[s]:[];}
   return [];
 }
@@ -674,7 +693,8 @@ function renderSummary(){
   }
   // группы с выбранным
   const groups=WIZ.map((w,i)=>{const vals=getGroupVals(w.id);if(!vals.length)return '';
-    return '<div class="sum-group"><div class="sum-group-hd"><span class="sum-group-ico">'+w.ico+'</span><span class="sum-group-nm">'+w.nm+'</span><span class="sum-group-edit" onclick="editStep('+i+')">Изменить</span></div><div class="sum-chips">'+vals.map(v=>'<span class="sum-chip">'+v+'</span>').join('')+'</div></div>';
+    const chips=vals.map(v=>'<span class="sum-chip"><span class="sum-chip-txt">'+v+'</span><span class="sum-chip-x" onclick="rmSummaryChip(\''+w.id+'\',\''+String(v).replace(/'/g,"\\'")+'\')">×</span></span>').join('');
+    return '<div class="sum-group"><div class="sum-group-hd"><span class="sum-group-ico">'+w.ico+'</span><span class="sum-group-nm">'+w.nm+'</span><span class="sum-group-edit" onclick="editStep('+i+')">Изменить</span></div><div class="sum-chips">'+chips+'</div></div>';
   }).filter(Boolean).join('');
   document.getElementById('sumGroups').innerHTML=groups;
   // нижние кнопки сводки
@@ -686,6 +706,21 @@ function renderSummary(){
   }
 }
 function editStep(i){startWizard(i);}
+function rmSummaryChip(groupId,val){
+  if(groupId==='ind'){S.ind.delete(val);syncChips('ind',val);}
+  else if(groupId==='prof'){
+    if(S.prof.has(val)){S.prof.delete(val);syncChips('prof',val);}
+    else if(S.skills.has(val)){S.skills.delete(val);syncChips('skill',val);}
+  }
+  else if(groupId==='fmt'){S.fmt.delete(val);document.querySelectorAll('.fmt-chip').forEach(c=>{if(c.textContent.trim()===val)c.classList.remove('on');});}
+  else if(groupId==='geo'){
+    if(val==='Вся Россия'){S.allRussia=false;document.getElementById('geoRussia').classList.remove('on');}
+    else{S.locs.delete(val);renderLocTags();}
+  }
+  else if(groupId==='exp'){S.exp.delete(val);document.querySelectorAll('.exp-chip').forEach(c=>{if(c.textContent.trim()===val)c.classList.remove('on');});}
+  else if(groupId==='sal'){S.salFrom=0;S.salTo=0;document.getElementById('salFrom').value='';document.getElementById('salTo').value='';document.getElementById('salHint').textContent='';}
+  upd();renderSummary();
+}
 
 upd();showSummary();
 if(window.Telegram&&window.Telegram.WebApp){
