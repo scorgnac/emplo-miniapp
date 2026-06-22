@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Эмпло · Визард</title>
 <meta name="theme-color" content="#2563EB">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Geologica:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -687,7 +688,16 @@ function renderSummary(){
 function editStep(i){startWizard(i);}
 
 upd();showSummary();
-if(window.Telegram?.WebApp){const tg=window.Telegram.WebApp;tg.ready();tg.expand();try{tg.setHeaderColor('#F4F6FA');tg.setBackgroundColor('#F4F6FA');}catch(e){}}
+if(window.Telegram&&window.Telegram.WebApp){
+  const tg=window.Telegram.WebApp;
+  tg.ready();
+  try{tg.expand();}catch(e){}
+  // полноэкранный режим для Telegram 8.0+ (если поддерживается)
+  try{if(typeof tg.requestFullscreen==='function'&&tg.isVersionAtLeast&&tg.isVersionAtLeast('8.0')){tg.requestFullscreen();}}catch(e){}
+  // отключаем сворачивание свайпом вниз, чтобы окно не закрывалось случайно
+  try{if(typeof tg.disableVerticalSwipes==='function')tg.disableVerticalSwipes();}catch(e){}
+  try{tg.setHeaderColor('#F4F6FA');tg.setBackgroundColor('#F4F6FA');}catch(e){}
+}
 </script>
 </body>
 </html>
