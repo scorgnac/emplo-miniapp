@@ -177,7 +177,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 /* ── ВИЗАРД ── */
 body{padding-bottom:120px}
 /* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
-.hdr{padding-top:calc(72px + env(safe-area-inset-top,0px));padding-bottom:10px}
+.hdr{padding-top:calc(88px + env(safe-area-inset-top,0px));padding-bottom:10px}
 .hdr.collapsed{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:0}
 .summary{padding-top:4px!important}
 /* прогресс-бар (кликабельный) */
@@ -214,13 +214,14 @@ body{padding-bottom:120px}
 .sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:260px;margin:0 auto;line-height:1.5}
 
 /* ОНБОРДИНГ: центрированный экран без фиксированной нижней кнопки */
-.summary.onboarding{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:calc(100dvh - 80px);padding:24px 24px calc(40px + env(safe-area-inset-bottom,0px));text-align:center}
+.summary.show.onboarding{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;height:100dvh;padding:calc(90px + env(safe-area-inset-top,0px)) 24px calc(40px + env(safe-area-inset-bottom,0px));text-align:center;overflow:hidden}
 body.onb .hdr{display:none}
-.summary.onboarding .sum-hero{padding:0;margin-bottom:28px}
-.summary.onboarding #sumGroups{display:none}
+body.onb{overflow:hidden;position:fixed;width:100%;height:100%;top:0;left:0;overscroll-behavior:none}
+.summary.show.onboarding .sum-hero{padding:0;margin-bottom:28px}
+.summary.show.onboarding #sumGroups{display:none}
 .onb-ico{width:84px;height:84px;border-radius:22px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 22px}
 .onb-ttl{font-family:'Geologica',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;line-height:1.25}
-.onb-sub{font-size:14px;color:var(--ink-mid);max-width:300px;margin:0 auto;line-height:1.5}
+.onb-sub{font-size:14px;color:var(--ink-mid);max-width:320px;margin:0 auto;line-height:1.5}
 .onb-btn{width:100%;max-width:340px;margin-top:32px;padding:16px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;box-shadow:0 2px 12px var(--accent-ring);transition:all .15s}
 .onb-btn:active{background:var(--accent-deep);transform:scale(.98)}
 
@@ -662,7 +663,8 @@ function startWizard(step){
   wizStep=step||0;
   document.body.classList.remove('onb');
   document.querySelector('.hdr').classList.remove('collapsed');
-  document.getElementById('summary').classList.remove('show');
+  document.getElementById('summary').classList.remove('show','onboarding');
+  document.body.classList.remove('onb');
   document.getElementById('wizContent').style.display='';
   document.getElementById('wizTitle').classList.add('show');
   document.getElementById('wizSub').classList.add('show');
@@ -711,7 +713,7 @@ function renderSummary(){
     // ОНБОРДИНГ: центрированный продающий экран, кнопка прямо под текстом
     summaryEl.classList.add('onboarding');
     document.body.classList.add('onb');
-    hero.innerHTML='<div class="onb-ico">🔍</div><div class="onb-ttl">Найдите работу мечты</div><div class="onb-sub">Задайте параметры — профессию, город, зарплату — и мы соберём свежие вакансии со всех площадок в одном списке</div><button class="onb-btn" onclick="startWizard(0)">Выбрать параметры</button>';
+    hero.innerHTML='<div class="onb-ico">🔍</div><div class="onb-ttl">Найдите работу мечты</div><div class="onb-sub">Задайте параметры поиска — и мы соберём свежие вакансии со всех площадок в одном списке</div><button class="onb-btn" onclick="startWizard(0)">Выбрать параметры</button>';
     document.getElementById('sumGroups').innerHTML='';
     sn.innerHTML='';
     return;
