@@ -49,7 +49,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 .hchip-x{cursor:pointer;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;line-height:1;flex-shrink:0}
 .hchip-x:active{background:var(--accent-deep)}
 
-.content{padding:10px 16px 130px}
+.content{padding:10px 16px 96px}
 
 /* SECTION */
 .sec{margin-bottom:8px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);overflow:visible;box-shadow:var(--sh-sm);transition:border-color .2s,box-shadow .2s}
@@ -177,9 +177,9 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 /* ── ВИЗАРД ── */
 body{padding-bottom:120px}
 /* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
-.hdr{padding-top:calc(88px + env(safe-area-inset-top,0px));padding-bottom:10px}
+.hdr{padding-top:calc(100px + env(safe-area-inset-top,0px));padding-bottom:10px}
 .hdr.collapsed{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:0}
-.summary{padding-top:4px!important}
+.summary{padding-top:0!important}
 /* прогресс-бар (кликабельный) */
 .wiz-progress{display:none;gap:4px;margin-top:4px}
 .wiz-progress.show{display:flex}
@@ -208,10 +208,10 @@ body{padding-bottom:120px}
 /* ── ЭКРАН СВОДКИ ── */
 .summary{display:none;padding:16px 16px 150px}
 .summary.show{display:block}
-.sum-hero{text-align:center;padding:calc(50px + env(safe-area-inset-top,0px)) 16px 18px}
+.sum-hero{text-align:left;padding:calc(72px + env(safe-area-inset-top,0px)) 4px 18px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
-.sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px}
-.sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:260px;margin:0 auto;line-height:1.5}
+.sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;text-align:left}
+.sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:none;margin:0;line-height:1.5;text-align:left}
 
 /* ОНБОРДИНГ: центрированный экран без фиксированной нижней кнопки */
 .summary.show.onboarding{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;height:100dvh;padding:calc(90px + env(safe-area-inset-top,0px)) 24px calc(40px + env(safe-area-inset-bottom,0px));text-align:center;overflow:hidden}
@@ -614,6 +614,8 @@ function resetAll(){
 function doSearch(){
   const payload={industries:[...S.ind],professions:[...S.prof],skills:[...S.skills],formats:[...S.fmt],geo:{all_russia:S.allRussia,locations:[...S.locs.entries()].map(([name,type])=>({name,type}))},experience:[...S.exp],salary_from:S.salFrom||null,salary_to:S.salTo||null,show_no_salary:S.noSal};
   const data=JSON.stringify(payload);
+  // сохраняем выбор, чтобы при следующем открытии фильтры остались
+  saveState();
   if(window.Telegram&&window.Telegram.WebApp){
     const tg=window.Telegram.WebApp;
     // тактильный отклик на нажатие
@@ -644,6 +646,7 @@ let mode='summary', wizStep=0;
 
 function showSummary(){
   mode='summary';
+  saveState();
   document.querySelector('.hdr').classList.add('collapsed');
   document.getElementById('summary').classList.add('show');
   document.getElementById('wizContent').style.display='none';
@@ -747,7 +750,99 @@ function rmSummaryChip(groupId,val){
   upd();renderSummary();
 }
 
-upd();showSummary();
+
+// ══ СОХРАНЕНИЕ / ВОССТАНОВЛЕНИЕ ПАРАМЕТРОВ (Telegram CloudStorage) ══
+const STORE_KEY='emplo_filters_v1';
+
+function serializeState(){
+  return JSON.stringify({
+    ind:[...S.ind], prof:[...S.prof], skills:[...S.skills], fmt:[...S.fmt],
+    allRussia:S.allRussia, locs:[...S.locs.entries()],
+    exp:[...S.exp], salFrom:S.salFrom, salTo:S.salTo, noSal:S.noSal
+  });
+}
+
+function applyState(raw){
+  let st; try{st=JSON.parse(raw);}catch(e){return false;}
+  if(!st||typeof st!=='object')return false;
+  S.ind=new Set(st.ind||[]);
+  S.prof=new Set(st.prof||[]);
+  S.skills=new Set(st.skills||[]);
+  S.fmt=new Set(st.fmt||[]);
+  S.allRussia=!!st.allRussia;
+  S.locs=new Map(st.locs||[]);
+  S.exp=new Set(st.exp||[]);
+  S.salFrom=st.salFrom||0; S.salTo=st.salTo||0;
+  S.noSal=st.noSal!==undefined?st.noSal:true;
+  syncUIFromState();
+  return true;
+}
+
+// Прокрашиваем UI (чипы, поля) согласно восстановленному S
+function syncUIFromState(){
+  // отрасли + профессии + навыки — чипы по тексту
+  document.querySelectorAll('.chip[data-grp="ind"]').forEach(c=>{
+    const t=c.textContent.replace('✓','').trim();
+    const on=S.ind.has(t); c.classList.toggle('on',on);
+    const d=c.querySelector('.chip-dot'); if(d)d.textContent=on?'✓':'';
+  });
+  document.querySelectorAll('.chip[data-grp="prof"]').forEach(c=>{
+    const t=c.textContent.replace('✓','').trim();
+    const on=S.prof.has(t); c.classList.toggle('on',on);
+    const d=c.querySelector('.chip-dot'); if(d)d.textContent=on?'✓':'';
+  });
+  document.querySelectorAll('.chip[data-grp="skill"]').forEach(c=>{
+    const t=c.textContent.replace('✓','').trim();
+    const on=S.skills.has(t); c.classList.toggle('on',on);
+    const d=c.querySelector('.chip-dot'); if(d)d.textContent=on?'✓':'';
+  });
+  // счётчики аккордеонов + показ навыков
+  document.querySelectorAll('.acc').forEach(acc=>{
+    const id=acc.dataset.acc;
+    if(id&&id.indexOf('ind')===0)updAccCnt(id,'ind'); else if(id)updAccCnt(id,'prof');
+    const sk=document.getElementById('sk-'+id);
+    if(sk){const any=document.querySelectorAll('.chip[data-cat="'+id+'"][data-grp="prof"].on').length>0;sk.style.display=any?'block':'none';}
+  });
+  // формат
+  document.querySelectorAll('.fmt-chip').forEach(c=>c.classList.toggle('on',S.fmt.has(c.textContent.trim())));
+  // гео
+  document.getElementById('geoRussia').classList.toggle('on',S.allRussia);
+  renderLocTags();
+  // опыт
+  document.querySelectorAll('.exp-chip').forEach(c=>c.classList.toggle('on',S.exp.has(c.textContent.trim())));
+  // зарплата
+  const f=document.getElementById('salFrom'),t=document.getElementById('salTo');
+  f.value=S.salFrom?S.salFrom.toLocaleString('ru-RU'):'';
+  t.value=S.salTo?S.salTo.toLocaleString('ru-RU'):'';
+  document.getElementById('togNoSal').classList.toggle('on',S.noSal);
+  onSal();
+}
+
+function saveState(){
+  const data=serializeState();
+  const tg=window.Telegram&&window.Telegram.WebApp;
+  if(tg&&tg.CloudStorage&&typeof tg.CloudStorage.setItem==='function'){
+    try{tg.CloudStorage.setItem(STORE_KEY,data,function(){});}catch(e){}
+  }
+}
+
+function restoreState(cb){
+  const tg=window.Telegram&&window.Telegram.WebApp;
+  if(tg&&tg.CloudStorage&&typeof tg.CloudStorage.getItem==='function'){
+    try{
+      tg.CloudStorage.getItem(STORE_KEY,function(err,val){
+        if(!err&&val){applyState(val);}
+        cb&&cb();
+      });
+      return;
+    }catch(e){}
+  }
+  cb&&cb();
+}
+
+// инициализация: сначала пробуем восстановить сохранённые фильтры
+upd();
+restoreState(function(){upd();showSummary();});
 if(window.Telegram&&window.Telegram.WebApp){
   const tg=window.Telegram.WebApp;
   tg.ready();
