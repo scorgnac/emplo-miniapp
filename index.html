@@ -255,6 +255,134 @@ body.onb{overflow:hidden;position:fixed;width:100%;height:100%;top:0;left:0;over
 .sum-btn-primary:active{background:var(--accent-deep);transform:scale(.99)}
 .sum-btn-sec{background:var(--white);color:var(--accent-ink);border:1.5px solid var(--accent-line)}
 .sum-btn-sec:active{background:var(--accent-soft)}
+
+/* ════════ v2 — ICON SYSTEM ════════ */
+.sec-ico svg{width:19px;height:19px;color:var(--ink-mid);transition:color .2s}
+.sec.active .sec-ico svg,.sec.wiz-active .sec-ico svg{color:var(--accent)}
+.acc-em{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;color:var(--ink-dim);transition:color .15s;font-size:0}
+.acc-em svg{width:18px;height:18px}
+.acc.picked .acc-em{color:var(--accent)}
+.acc.open .acc-em{color:var(--accent-bright)}
+.onb-ico svg{width:42px;height:42px;color:var(--accent);stroke-width:1.5}
+.sum-group-ico{width:26px;height:26px;color:var(--accent);display:inline-flex;align-items:center;justify-content:center}
+.sum-group-ico svg{width:19px;height:19px}
+.sum-hero-ico svg{width:30px;height:30px;color:var(--accent)}
+.icz svg{display:block}
+
+/* ════════ v2 — LIQUID GLASS (light) + POLISH ════════ */
+:root{
+  --r:16px;--r-sm:11px;
+  --glass:rgba(255,255,255,.58);
+  --glass-strong:rgba(255,255,255,.72);
+  --glass-brd:rgba(255,255,255,.7);
+  --hair:rgba(15,23,42,.07);
+  --hi:inset 0 1px 0 rgba(255,255,255,.9);
+  --el-1:0 4px 16px rgba(23,43,77,.07),0 1px 3px rgba(23,43,77,.05);
+  --el-2:0 12px 34px rgba(23,43,77,.13),0 3px 10px rgba(23,43,77,.06);
+}
+/* ambient backdrop — вариант B: цветные орбы + объекты (кольца/точки) за стеклом */
+html{background:var(--ivory)}
+body{background:transparent}
+body::before{content:'';position:fixed;inset:-15%;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(30% 24% at 16% 6%, rgba(59,130,246,.28), transparent 66%),
+    radial-gradient(26% 22% at 90% 14%, rgba(99,102,241,.24), transparent 64%),
+    radial-gradient(30% 26% at 84% 62%, rgba(56,189,248,.20), transparent 66%),
+    radial-gradient(34% 30% at 12% 92%, rgba(37,99,235,.22), transparent 70%);}
+body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.9;
+  background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22390%22%20height%3D%22844%22%20viewBox%3D%220%200%20390%20844%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22rgba%2837%2C99%2C235%2C0.12%29%22%20stroke-width%3D%221.4%22%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22120%22%20r%3D%2290%22/%3E%3Ccircle%20cx%3D%22320%22%20cy%3D%22120%22%20r%3D%22140%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%22560%22%20r%3D%2270%22/%3E%3Ccircle%20cx%3D%2260%22%20cy%3D%22560%22%20r%3D%22115%22/%3E%3Ccircle%20cx%3D%22330%22%20cy%3D%22690%22%20r%3D%2255%22/%3E%3C/g%3E%3Cg%20fill%3D%22rgba%2899%2C102%2C241%2C0.16%29%22%3E%3Ccircle%20cx%3D%22300%22%20cy%3D%22300%22%20r%3D%224%22/%3E%3Ccircle%20cx%3D%22120%22%20cy%3D%22180%22%20r%3D%223%22/%3E%3Ccircle%20cx%3D%22350%22%20cy%3D%22470%22%20r%3D%223.5%22/%3E%3Ccircle%20cx%3D%2240%22%20cy%3D%22360%22%20r%3D%223%22/%3E%3Ccircle%20cx%3D%22200%22%20cy%3D%22760%22%20r%3D%224%22/%3E%3Ccircle%20cx%3D%22150%22%20cy%3D%22620%22%20r%3D%222.5%22/%3E%3C/g%3E%3C/svg%3E") center/cover no-repeat;}
+
+/* sticky header — лёгкий blur (директива: 8-14px) */
+.hdr{background:linear-gradient(180deg,rgba(244,246,250,.86),rgba(244,246,250,.55));
+  -webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5)}
+
+/* нижние доки — стекло */
+.wiz-nav,.sum-nav,.cta-wrap{background:linear-gradient(to top,rgba(244,246,250,.92) 52%,rgba(244,246,250,0));
+  -webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
+
+/* секция-карточка (не-визард) — стекло */
+.sec{background:var(--glass);border:1px solid var(--glass-brd);border-radius:var(--r);
+  box-shadow:var(--el-1),var(--hi);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
+.sec.active{border-color:var(--accent-line);box-shadow:var(--el-2),var(--hi)}
+.sec-ico{background:rgba(255,255,255,.5);border:1px solid var(--glass-brd);border-radius:12px;box-shadow:var(--hi)}
+.sec.active .sec-ico{background:var(--accent-soft);border-color:var(--accent-line)}
+
+/* аккордеон-категория: translucent + хейрлайн (perf: без blur пока закрыт) */
+.acc{background:rgba(255,255,255,.55);border:1px solid var(--glass-brd);border-radius:14px;
+  box-shadow:var(--el-1),var(--hi);margin-bottom:8px;overflow:hidden;transition:box-shadow .22s,border-color .18s,transform .12s}
+.acc.picked{background:rgba(234,241,255,.66);border-color:var(--accent-line)}
+.acc.open{box-shadow:var(--el-2),var(--hi);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6)}
+.acc-hd{padding:12px 13px}
+.acc-bd{background:rgba(255,255,255,.34)}
+.acc.open .acc-bd{border-top-color:var(--glass-brd)}
+.acc-in{padding:11px 13px 13px}
+.acc-nm{font-size:13px;letter-spacing:-.1px}
+
+/* поиск — мягкое стекло */
+.srch input{background:rgba(255,255,255,.55);border:1px solid var(--glass-brd);box-shadow:var(--hi);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-radius:12px;padding-top:10px;padding-bottom:10px}
+.srch input:focus{border-color:var(--accent);background:rgba(255,255,255,.8)}
+
+/* чипы — хейрлайн вместо жирной рамки, аккуратный выбор */
+.chip{border:1px solid var(--hair);background:rgba(255,255,255,.6);border-radius:20px;padding:7px 12px;
+  box-shadow:0 1px 2px rgba(23,43,77,.04);transition:all .14s}
+.chip.on{background:var(--accent-soft);border-color:var(--accent-ink);box-shadow:0 2px 8px var(--accent-ring)}
+.chip-dot{width:15px;height:15px;border:1.5px solid var(--ink-muted)}
+.chip.on .chip-dot{border-color:var(--accent)}
+.fmt-chip,.exp-chip{border:1px solid var(--hair);background:rgba(255,255,255,.6);box-shadow:0 1px 2px rgba(23,43,77,.04)}
+.fmt-chip.on,.exp-chip.on{background:var(--accent-soft);border-color:var(--accent-ink);box-shadow:0 2px 8px var(--accent-ring)}
+.geo-opt{border:1px solid var(--hair);background:rgba(255,255,255,.6)}
+.geo-opt.on{border-color:var(--accent-ink);background:var(--accent-soft)}
+
+/* типографика-иерархия */
+.wiz-title{font-size:23px;letter-spacing:-.5px;line-height:1.16;margin-top:16px}
+.wiz-sub{font-size:13.5px;color:var(--ink-mid);margin-bottom:14px}
+.sec-ttl{letter-spacing:-.2px}
+
+/* CTA / primary — лёгкий gloss-объём, синий тот же */
+.cta,.wiz-next,.sum-btn-primary,.onb-btn{background:linear-gradient(180deg,var(--accent-bright),var(--accent));
+  box-shadow:0 8px 22px var(--accent-ring),inset 0 1px 0 rgba(255,255,255,.35)}
+.cta:active,.wiz-next:active,.sum-btn-primary:active,.onb-btn:active{background:linear-gradient(180deg,var(--accent),var(--accent-deep))}
+.wiz-back,.sum-btn-sec{background:var(--glass-strong);border:1px solid var(--glass-brd);box-shadow:var(--el-1),var(--hi);
+  -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+
+/* прогресс-сегменты — чуть выразительнее */
+.wiz-dot{height:5px;border-radius:3px}
+.wiz-seg.cur .wiz-dot{box-shadow:0 0 0 3px var(--accent-ring)}
+
+/* СВОДКА — карточки-стекло */
+.sum-group{background:var(--glass);border:1px solid var(--glass-brd);border-radius:var(--r);
+  box-shadow:var(--el-2),var(--hi);-webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6);padding:14px 15px}
+.sum-group-ico{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:9px;box-shadow:var(--hi)}
+.sum-chip{background:rgba(234,241,255,.7);border-color:var(--accent-line)}
+.sum-hero-ico{background:var(--glass-strong);border:1px solid var(--glass-brd);box-shadow:var(--el-1),var(--hi);
+  -webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6)}
+
+/* ОНБОРДИНГ — плитка-стекло */
+.onb-ico{background:linear-gradient(140deg,rgba(255,255,255,.85),rgba(234,241,255,.7));
+  border:1px solid var(--glass-brd);box-shadow:var(--el-2),var(--hi);
+  -webkit-backdrop-filter:blur(22px) saturate(1.6);backdrop-filter:blur(22px) saturate(1.6)}
+.onb-ttl{letter-spacing:-.6px}
+/* фикс выравнивания онбординга: всё по центру (заголовок/подзаголовок/кнопка) */
+.summary.show.onboarding .sum-hero{text-align:center}
+.summary.show.onboarding .onb-ttl,.summary.show.onboarding .onb-sub{text-align:center;margin-left:auto;margin-right:auto}
+.onb-btn{margin-left:auto;margin-right:auto}
+
+/* ════════ DESKTOP — центрированная колонка-панель на полном фоне ════════ */
+@media (min-width:620px){
+  :root{--col:468px}
+  .hdr,.summary,.wiz-title,.wiz-sub,.content{max-width:var(--col);margin-left:auto;margin-right:auto}
+  .hdr{padding-top:calc(20px + env(safe-area-inset-top,0px))}
+  .wiz-nav,.sum-nav,.cta-wrap{left:50%;right:auto;transform:translateX(-50%);width:100%;max-width:var(--col)}
+  .summary.show.onboarding{max-width:none}
+  .onb-ttl,.onb-sub{max-width:430px}
+  /* мягкая «рамка-панель» вокруг рабочей колонки на десктопе */
+  .content{position:relative}
+  .summary:not(.onboarding){min-height:auto}
+}
+@media (min-width:620px) and (min-height:560px){
+  body{padding-top:6px}
+}
 </style>
 </head>
 <body>
@@ -839,6 +967,19 @@ function restoreState(cb){
   }
   cb&&cb();
 }
+
+
+/* ── ICON SYSTEM ── эмодзи -> линейный SVG ── */
+const ICONS={'🏭':'<path d="M2 20a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V9l-6 4V9l-6 4V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1z"/><path d="M7 21v-4M11 21v-4M15 21v-4"/>','💼':'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M3 12h18"/>','🖥️':'<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/>','📍':'<path d="M12 21s-6.5-5.8-6.5-10.5a6.5 6.5 0 0 1 13 0C18.5 15.2 12 21 12 21Z"/><circle cx="12" cy="10.5" r="2.4"/>','⭐':'<path d="M12 3.5l2.55 5.17 5.7.83-4.12 4.02.97 5.68L12 16.9l-5.07 2.3.97-5.68L3.75 9.5l5.7-.83z"/>','💵':'<rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/>','🛒':'<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h2.2l2.3 12.1a1 1 0 0 0 1 .8h9.4a1 1 0 0 0 1-.78L21 7.5H5.4"/>','🚚':'<path d="M3 6.5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1V16H3z"/><path d="M14 9h3.2l2.8 3v4H14z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/>','🏗️':'<path d="M15 7.5l3.5 3.5"/><path d="M17.2 5.3l1.5 1.5a1.5 1.5 0 0 1 0 2.1l-1 1-3.6-3.6 1-1a1.5 1.5 0 0 1 2.1 0Z"/><path d="m12.6 9.4-8 8a1.6 1.6 0 0 0 2.2 2.2l8-8"/>','🍽️':'<path d="M6 3v6a2 2 0 0 0 4 0V3"/><path d="M8 9v12"/><path d="M17 3c-1.4 0-2.2 1.9-2.2 4.2s.8 3.8 2.2 3.8v10"/>','🏥':'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 8v8M8 12h8"/>','🎓':'<path d="M22 9 12 5 2 9l10 4 10-4Z"/><path d="M6 11v4c0 1.1 2.7 2.5 6 2.5s6-1.4 6-2.5v-4"/>','🏦':'<path d="M3 21h18M5 21V10M9.5 21V10M14.5 21V10M19 21V10"/><path d="M12 3 3.5 8h17z"/>','💻':'<rect x="3" y="5" width="18" height="11" rx="1.6"/><path d="M2 20h20"/><path d="M9.5 9 8 11l1.5 2"/><path d="m14.5 9 1.5 2-1.5 2"/>','🧹':'<rect x="8" y="9" width="8" height="12" rx="2"/><path d="M10 9V6h4v3"/><path d="M17 5h2M17 8h2M19 4v5"/>','🚗':'<path d="M5 13l1.4-4.3A2 2 0 0 1 8.3 7.3h7.4a2 2 0 0 1 1.9 1.4L19 13"/><path d="M4 13h16v4H4z"/><circle cx="7.5" cy="17.5" r="1.3"/><circle cx="16.5" cy="17.5" r="1.3"/>','🌾':'<path d="M12 21V11"/><path d="M12 11c0-2.6 1.8-4.5 4.5-4.5C16.5 9.1 14.7 11 12 11Z"/><path d="M12 11c0-2.6-1.8-4.5-4.5-4.5C7.5 9.1 9.3 11 12 11Z"/>','⚡':'<path d="M13 2 4 14h6.5L9.5 22 20 10h-6.5z"/>','🏢':'<rect x="5" y="3" width="14" height="18" rx="1.6"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/>','🛡️':'<path d="M12 3 5 6v5c0 4 3 7 7 9 4-2 7-5 7-9V6z"/>','📣':'<path d="M3 11v2a1 1 0 0 0 1 1h2.2l9 4.8V6.2L6.2 11H4a1 1 0 0 0-1 1Z"/><path d="M18 9.2a3 3 0 0 1 0 5.6"/>','📺':'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="m8 3 4 4 4-4"/>','🎭':'<path d="M4 7a2 2 0 0 0-2 2 2 2 0 0 1 0 6 2 2 0 0 0 2 2h16a2 2 0 0 0 2-2 2 2 0 0 1 0-6 2 2 0 0 0-2-2z"/><path d="M14 7v10"/>','⛏️':'<path d="m3 18 6-9 4 5 3-4 5 8z"/>','🏛️':'<path d="M3 21h18M5 21V10M9.5 21V10M14.5 21V10M19 21V10"/><path d="M12 3 3.5 8h17z"/>','🤝':'<path d="M12 7.5 9.4 10a1.6 1.6 0 0 0 0 2.3l.3.3a1.6 1.6 0 0 0 2.3 0l1-1"/><path d="m13 9.5 3 3 .4.4a1.6 1.6 0 0 1-2.3 2.3L13 14"/><path d="M3 9l4-2 5 4.5"/><path d="M21 9l-4-2-3 2"/>','📊':'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>','🔧':'<path d="M14.7 6.3a4 4 0 0 0-5.4 5.2L4 17l3 3 5.5-5.3a4 4 0 0 0 5.2-5.4l-2.4 2.4-2.1-2.1z"/>','🗂️':'<path d="M4 8a2 2 0 0 1 2-2h3l2 2h7a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/>','💇':'<circle cx="6" cy="6" r="2.4"/><circle cx="6" cy="18" r="2.4"/><path d="M8 7.7 20 18M8 16.3 20 6"/>','⚙️':'<circle cx="12" cy="12" r="3"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6 7.4 7.4M16.6 16.6l1.8 1.8M18.4 5.6 16.6 7.4M7.4 16.6 5.6 18.4"/>','🩺':'<path d="M3 11h3.5l1.8-4.5 3.4 9 1.8-4.5H17"/><circle cx="20" cy="11" r="2"/>','📚':'<path d="M5 4.5A1.5 1.5 0 0 1 6.5 3H19v15H6.5A1.5 1.5 0 0 0 5 19.5z"/><path d="M5 19.5A1.5 1.5 0 0 1 6.5 18H19v3H6.5A1.5 1.5 0 0 1 5 19.5z"/><path d="M9 3v13"/>','💰':'<path d="M4 8a2 2 0 0 1 2-2h11v4"/><rect x="4" y="8" width="17" height="11" rx="2"/><circle cx="16.5" cy="13.5" r="1.4"/>','👥':'<circle cx="9" cy="8" r="3"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0"/><path d="M16 5.2a3 3 0 0 1 0 5.6"/><path d="M20.5 20a5.5 5.5 0 0 0-4.3-5.4"/>','📦':'<path d="m3 8 9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/><path d="m7.5 5.5 9 5"/>','⚖️':'<path d="M12 3v18M7 21h10M5 7h14"/><path d="m5 7-3 6a3 3 0 0 0 6 0z"/><path d="m19 7 3 6a3 3 0 0 1-6 0z"/>','🎨':'<path d="M12 3a9 9 0 1 0 0 18 2 2 0 0 0 1.8-3 2 2 0 0 1 1.8-3H18a3 3 0 0 0 3-3 9 9 0 0 0-9-6Z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="8" r="1"/><circle cx="16" cy="11" r="1"/>','🎬':'<rect x="3" y="8" width="18" height="12" rx="1.5"/><path d="m3.5 8 2-3.5 3.5 1-2 3.5z"/><path d="m9 5.5 3.5 1-2 3.5-3.5-1z"/><path d="m15 6.5 3.5 1-2 3.5-3.5-1z"/>','🧭':'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2.2 5.3-4.8 2.2 2.2-5.3z"/>','👔':'<path d="M9.5 3h5l-1.2 4.5L15 16l-3 5-3-5 1.7-8.5z"/>','📈':'<path d="M3 17 9 11l4 4 8-8"/><path d="M16 7h5v5"/>','🔍':'<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'};
+function svgIco(k){const p=ICONS[k];return p?'<svg class="icz" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>':null;}
+function iconize(root){(root||document).querySelectorAll('.sec-ico,.acc-em,.onb-ico,.sum-group-ico,.sum-hero-ico').forEach(function(el){
+  if(el.querySelector('svg'))return;
+  const k=(el.getAttribute('data-ico')||el.textContent||'').trim();
+  const s=svgIco(k);
+  if(s){el.setAttribute('data-ico',k);el.innerHTML=s;}
+});}
+if(typeof renderSummary==='function'){const _rs=renderSummary;renderSummary=function(){const r=_rs.apply(this,arguments);iconize(document.getElementById('summary'));return r;};}
+iconize();
 
 // инициализация: сначала пробуем восстановить сохранённые фильтры
 upd();
