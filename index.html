@@ -18,6 +18,11 @@
   --border:#DCE2EC;
   --sh-sm:0 1px 3px rgba(0,0,0,.06);--sh-md:0 3px 10px rgba(0,0,0,.08);
   --r:12px;--r-sm:8px;--r-pill:100px;
+  /* safe-area: фоллбэк на env(); JS перезапишет значениями Telegram (вырез + зона под кнопки ТГ) */
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);
+  --safe-right:env(safe-area-inset-right,0px);
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{background:var(--ivory);min-height:100%}
@@ -72,7 +77,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 /* SEARCH */
 .srch{position:relative;margin-bottom:12px}
 .srch svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);color:var(--ink-muted);pointer-events:none}
-.srch input{width:100%;background:var(--ivory);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--ink);font-size:13px;font-family:inherit;padding:8px 10px 8px 32px;outline:none;transition:border-color .15s}
+.srch input{width:100%;background:var(--ivory);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--ink);font-size:16px;font-family:inherit;padding:8px 10px 8px 32px;outline:none;transition:border-color .15s}
 .srch input::placeholder{color:var(--ink-muted)}
 .srch input:focus{border-color:var(--accent)}
 
@@ -128,7 +133,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 .geo-multi{margin-top:2px;display:none}
 .geo-multi.show{display:block}
 .geo-ac{position:relative}
-.geo-ac input{width:100%;background:var(--white);border:1.5px solid var(--accent);border-radius:var(--r-sm);color:var(--ink);font-size:13px;font-family:inherit;padding:10px 12px;outline:none}
+.geo-ac input{width:100%;background:var(--white);border:1.5px solid var(--accent);border-radius:var(--r-sm);color:var(--ink);font-size:16px;font-family:inherit;padding:10px 12px;outline:none}
 .geo-ac input::placeholder{color:var(--ink-muted)}
 .geo-dd{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--white);border:1.5px solid var(--accent-line);border-radius:var(--r-sm);box-shadow:var(--sh-md);max-height:200px;overflow-y:auto;z-index:50;display:none}
 .geo-dd.show{display:block}
@@ -151,10 +156,13 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 
 /* SALARY */
 .sal-row{display:flex;gap:10px;margin-bottom:10px}
+.sec.wiz-active .sal-row{margin-top:-10px}
+.sec.wiz-active .sal-field label{margin-bottom:7px}
 .sal-field{flex:1}
 .sal-field label{display:block;font-size:11px;font-weight:600;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
 .sal-input-wrap{position:relative}
-.sal-input-wrap input{width:100%;background:var(--ivory);border:1.5px solid var(--border);border-radius:var(--r-sm);color:var(--ink);font-size:15px;font-family:'Geologica',sans-serif;font-weight:600;padding:10px 28px 10px 12px;outline:none;transition:border-color .15s}
+.sal-input-wrap input{width:100%;background:var(--glass-strong);border:1.5px solid var(--glass-brd);border-radius:var(--r);color:var(--ink);font-size:16px;font-family:'Geologica',sans-serif;font-weight:600;padding:15px 32px 15px 46px;outline:none;box-shadow:var(--el-1),var(--hi);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);transition:border-color .15s,box-shadow .15s}
+.sal-pre{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink-mid);font-size:15px;font-weight:600;font-family:'Inter',sans-serif;pointer-events:none;z-index:1}
 .sal-input-wrap input:focus{border-color:var(--accent)}
 .sal-input-wrap input::placeholder{color:var(--ink-muted);font-weight:400;font-family:'Inter',sans-serif;font-size:13px}
 .sal-cur{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--ink-muted);font-size:14px;pointer-events:none}
@@ -170,15 +178,15 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 
 /* CTA */
 .cta-wrap{position:fixed;bottom:0;left:0;right:0;padding:10px 16px 16px;background:linear-gradient(to top,var(--ivory) 75%,transparent);z-index:100}
-.cta{width:100%;padding:15px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s;box-shadow:0 2px 12px var(--accent-ring)}
+.cta{width:100%;padding:15px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:all .15s}
 .cta:active{transform:scale(.98);background:var(--accent-deep)}
 .cta-bdg{background:rgba(255,255,255,.2);padding:2px 8px;border-radius:var(--r-pill);font-size:12px}
 
 /* ── ВИЗАРД ── */
 body{padding-bottom:120px}
-/* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) */
-.hdr{padding-top:calc(100px + env(safe-area-inset-top,0px));padding-bottom:10px}
-.hdr.collapsed{padding-top:calc(8px + env(safe-area-inset-top,0px));padding-bottom:0}
+/* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) — берём из Telegram safe-area, без магических чисел */
+.hdr{padding-top:calc(var(--safe-top) + 8px);padding-bottom:10px}
+.hdr.collapsed{padding-top:calc(var(--safe-top) + 8px);padding-bottom:0}
 .summary{padding-top:0!important}
 /* прогресс-бар (кликабельный) */
 .wiz-progress{display:none;gap:4px;margin-top:4px}
@@ -196,7 +204,7 @@ body{padding-bottom:120px}
 
 /* секции скрыты, активная видна */
 .sec{display:none!important}
-.sec.wiz-active{display:block!important;border:none;box-shadow:none;background:transparent;margin:0}
+.sec.wiz-active,.sec.wiz-active.active{display:block!important;border:none!important;box-shadow:none!important;background:transparent!important;margin:0;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .sec.wiz-active .sec-hd{display:none}
 .sec.wiz-active .sec-body{max-height:none!important;border-top:none;overflow:visible}
 .sec.wiz-active .sec-in{padding:6px 2px 2px}
@@ -208,7 +216,7 @@ body{padding-bottom:120px}
 /* ── ЭКРАН СВОДКИ ── */
 .summary{display:none;padding:16px 16px 150px}
 .summary.show{display:block}
-.sum-hero{text-align:left;padding:calc(72px + env(safe-area-inset-top,0px)) 4px 18px}
+.sum-hero{text-align:left;padding:63px 4px 18px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
 .sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;text-align:left}
 .sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:none;margin:0;line-height:1.5;text-align:left}
@@ -222,7 +230,7 @@ body.onb{overflow:hidden;position:fixed;width:100%;height:100%;top:0;left:0;over
 .onb-ico{width:84px;height:84px;border-radius:22px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:40px;margin:0 auto 22px}
 .onb-ttl{font-family:'Geologica',sans-serif;font-size:24px;font-weight:700;letter-spacing:-.5px;margin-bottom:10px;line-height:1.25}
 .onb-sub{font-size:14px;color:var(--ink-mid);max-width:320px;margin:0 auto;line-height:1.5}
-.onb-btn{width:100%;max-width:340px;margin-top:32px;padding:16px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;box-shadow:0 2px 12px var(--accent-ring);transition:all .15s}
+.onb-btn{width:100%;max-width:340px;margin-top:32px;padding:16px 20px;background:var(--accent);color:#fff;font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.2px;border:none;border-radius:var(--r);cursor:pointer;transition:all .15s}
 .onb-btn:active{background:var(--accent-deep);transform:scale(.98)}
 
 /* список выбранного на сводке */
@@ -243,15 +251,17 @@ body.onb{overflow:hidden;position:fixed;width:100%;height:100%;top:0;left:0;over
 .wiz-nav{position:fixed;bottom:0;left:0;right:0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--ivory) 62%,transparent);z-index:100;display:none;gap:8px;align-items:center}
 .wiz-nav.show{display:flex}
 .wiz-btn{padding:15px 18px;border-radius:var(--r);font-family:'Geologica',sans-serif;font-size:14px;font-weight:700;border:none;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
+.wiz-btn,.cta,.onb-btn,.sum-btn-primary,.sum-btn-sec,.wiz-back{outline:none!important;-webkit-tap-highlight-color:transparent;-webkit-appearance:none;appearance:none}
+.wiz-btn:focus,.wiz-btn:focus-visible,.cta:focus,.onb-btn:focus,.sum-btn-primary:focus,.sum-btn-sec:focus{outline:none!important;box-shadow:none}
 .wiz-back{background:none;border:1.5px solid var(--border);color:var(--ink-mid);flex-shrink:0}
 .wiz-back:active{background:var(--ivory-deep)}
-.wiz-next{background:var(--accent);color:#fff;flex:1;box-shadow:0 2px 12px var(--accent-ring)}
+.wiz-next{background:var(--accent);color:#fff;flex:1}
 .wiz-next:active{background:var(--accent-deep);transform:scale(.99)}
 /* кнопки на сводке */
 .sum-nav{position:fixed;bottom:0;left:0;right:0;padding:18px 16px calc(20px + env(safe-area-inset-bottom,0px));background:linear-gradient(to top,var(--ivory) 62%,transparent);z-index:100;display:none;flex-direction:column;gap:8px}
 .sum-nav.show{display:flex}
 .sum-btn{width:100%;padding:15px 20px;border-radius:var(--r);font-family:'Geologica',sans-serif;font-size:15px;font-weight:700;border:none;cursor:pointer;transition:all .15s;letter-spacing:-.2px}
-.sum-btn-primary{background:var(--accent);color:#fff;box-shadow:0 2px 12px var(--accent-ring)}
+.sum-btn-primary{background:var(--accent);color:#fff}
 .sum-btn-primary:active{background:var(--accent-deep);transform:scale(.99)}
 .sum-btn-sec{background:var(--white);color:var(--accent-ink);border:1.5px solid var(--accent-line)}
 .sum-btn-sec:active{background:var(--accent-soft)}
@@ -296,9 +306,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .hdr{background:linear-gradient(180deg,rgba(244,246,250,.86),rgba(244,246,250,.55));
   -webkit-backdrop-filter:blur(14px) saturate(1.5);backdrop-filter:blur(14px) saturate(1.5)}
 
-/* нижние доки — стекло */
-.wiz-nav,.sum-nav,.cta-wrap{background:linear-gradient(to top,rgba(244,246,250,.92) 52%,rgba(244,246,250,0));
-  -webkit-backdrop-filter:blur(16px) saturate(1.5);backdrop-filter:blur(16px) saturate(1.5)}
+/* нижние доки — только мягкое затухание, без матовой панели */
+.wiz-nav,.sum-nav,.cta-wrap{background:linear-gradient(to top,var(--ivory) 58%,rgba(244,246,250,.72) 78%,transparent);-webkit-backdrop-filter:none;backdrop-filter:none}
 
 /* секция-карточка (не-визард) — стекло */
 .sec{background:var(--glass);border:1px solid var(--glass-brd);border-radius:var(--r);
@@ -341,7 +350,7 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 
 /* CTA / primary — лёгкий gloss-объём, синий тот же */
 .cta,.wiz-next,.sum-btn-primary,.onb-btn{background:linear-gradient(180deg,var(--accent-bright),var(--accent));
-  box-shadow:0 8px 22px var(--accent-ring),inset 0 1px 0 rgba(255,255,255,.35)}
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .cta:active,.wiz-next:active,.sum-btn-primary:active,.onb-btn:active{background:linear-gradient(180deg,var(--accent),var(--accent-deep))}
 .wiz-back,.sum-btn-sec{background:var(--glass-strong);border:1px solid var(--glass-brd);box-shadow:var(--el-1),var(--hi);
   -webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
@@ -525,8 +534,8 @@ body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;opa
   </div>
   <div class="sec-body"><div class="sec-in">
     <div class="sal-row">
-      <div class="sal-field"><label>От</label><div class="sal-input-wrap"><input type="text" inputmode="numeric" id="salFrom" placeholder="0" oninput="onSal()"><span class="sal-cur">₽</span></div></div>
-      <div class="sal-field"><label>До</label><div class="sal-input-wrap"><input type="text" inputmode="numeric" id="salTo" placeholder="∞" oninput="onSal()"><span class="sal-cur">₽</span></div></div>
+      <div class="sal-field"><div class="sal-input-wrap"><span class="sal-pre">от</span><input type="text" inputmode="numeric" id="salFrom" placeholder="0" oninput="onSal()"><span class="sal-cur">₽</span></div></div>
+      <div class="sal-field"><div class="sal-input-wrap"><span class="sal-pre">до</span><input type="text" inputmode="numeric" id="salTo" placeholder="∞" oninput="onSal()"><span class="sal-cur">₽</span></div></div>
     </div>
     <div class="sal-hint" id="salHint"></div>
     <div class="divider"></div>
@@ -988,8 +997,35 @@ if(window.Telegram&&window.Telegram.WebApp){
   const tg=window.Telegram.WebApp;
   tg.ready();
   try{tg.expand();}catch(e){}
-  // полноэкранный режим для Telegram 8.0+ (если поддерживается)
-  try{if(typeof tg.requestFullscreen==='function'&&tg.isVersionAtLeast&&tg.isVersionAtLeast('8.0')){tg.requestFullscreen();}}catch(e){}
+
+  // ── safe-area: берём зоны из Telegram (вырез устройства + зона под кнопки ТГ в фуллскрине) ──
+  function applyInsets(){
+    // на старых клиентах объектов нет — оставляем CSS-фоллбэк env()
+    if(!tg.safeAreaInset && !tg.contentSafeAreaInset) return;
+    const sa=tg.safeAreaInset||{top:0,bottom:0,left:0,right:0};
+    const ca=tg.contentSafeAreaInset||{top:0,bottom:0,left:0,right:0};
+    const r=document.documentElement.style;
+    r.setProperty('--safe-top',((sa.top||0)+(ca.top||0))+'px');
+    r.setProperty('--safe-bottom',((sa.bottom||0)+(ca.bottom||0))+'px');
+    r.setProperty('--safe-left',((sa.left||0)+(ca.left||0))+'px');
+    r.setProperty('--safe-right',((sa.right||0)+(ca.right||0))+'px');
+  }
+  // зоны меняются при входе/выходе из фуллскрина и повороте — слушаем события
+  try{tg.onEvent('safeAreaChanged',applyInsets);}catch(e){}
+  try{tg.onEvent('contentSafeAreaChanged',applyInsets);}catch(e){}
+  try{tg.onEvent('fullscreenChanged',function(){setTimeout(applyInsets,60);});}catch(e){}
+
+  // стоковый фуллскрин Telegram 8.0+ (зоны под его кнопки придут через applyInsets)
+  try{
+    if(typeof tg.requestFullscreen==='function'&&tg.isVersionAtLeast&&tg.isVersionAtLeast('8.0')){
+      tg.requestFullscreen();
+    }
+  }catch(e){}
+  applyInsets();
+  // подстраховка: значения вырезов могут прийти чуть позже инициализации
+  setTimeout(applyInsets,120);
+  setTimeout(applyInsets,400);
+
   // отключаем сворачивание свайпом вниз, чтобы окно не закрывалось случайно
   try{if(typeof tg.disableVerticalSwipes==='function')tg.disableVerticalSwipes();}catch(e){}
   try{tg.setHeaderColor('#F4F6FA');tg.setBackgroundColor('#F4F6FA');}catch(e){}
