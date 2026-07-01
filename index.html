@@ -186,7 +186,7 @@ body{background:var(--ivory);color:var(--ink);font-family:'Inter',-apple-system,
 body{padding-bottom:120px}
 /* верхний отступ под стоковые кнопки Telegram (Закрыть / ⌄ ...) — берём из Telegram safe-area, без магических чисел */
 .hdr{padding-top:calc(var(--safe-top) + 8px);padding-bottom:10px}
-.hdr.collapsed{padding-top:calc(var(--safe-top) + 8px);padding-bottom:0}
+.hdr.collapsed{padding-top:calc(var(--safe-top) + 8px);padding-bottom:0;background:transparent!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .summary{padding-top:0!important}
 /* прогресс-бар (кликабельный) */
 .wiz-progress{display:none;gap:4px;margin-top:4px}
@@ -216,7 +216,7 @@ body{padding-bottom:120px}
 /* ── ЭКРАН СВОДКИ ── */
 .summary{display:none;padding:16px 16px 150px}
 .summary.show{display:block}
-.sum-hero{text-align:left;padding:63px 4px 18px}
+.sum-hero{text-align:left;padding:24px 4px 18px}
 .sum-hero-ico{width:64px;height:64px;border-radius:18px;background:var(--accent-soft);border:1.5px solid var(--accent-line);display:flex;align-items:center;justify-content:center;font-size:30px;margin:0 auto 16px}
 .sum-hero-ttl{font-family:'Geologica',sans-serif;font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;text-align:left}
 .sum-hero-sub{font-size:13px;color:var(--ink-dim);max-width:none;margin:0;line-height:1.5;text-align:left}
